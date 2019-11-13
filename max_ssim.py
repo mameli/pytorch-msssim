@@ -1,7 +1,7 @@
 from pytorch_msssim import msssim, ssim
 import torch
 from torch import optim
-from scipy.misc import imread
+from imageio import imread
 import numpy as np
 
 # display = True requires matplotlib
@@ -43,9 +43,9 @@ print("Initial %s: %.5f" % (metric, value.item()))
 optimizer = optim.Adam([img2], lr=0.01)
 
 # MSSSIM yields higher values for worse results, because noise is removed in scales with lower resolutions
-threshold = 0.999 if metric == 'MSSSIM' else 0.9
+threshold = 0.001 if metric == 'MSSSIM' else 0.01
 
-while value < threshold:
+while value > threshold:
     optimizer.zero_grad()
     msssim_out = loss_func(img1, img2)
     value = msssim_out.item()
