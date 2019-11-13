@@ -47,8 +47,8 @@ threshold = 0.999 if metric == 'MSSSIM' else 0.9
 
 while value < threshold:
     optimizer.zero_grad()
-    msssim_out = -loss_func(img1, img2)
-    value = -msssim_out.item()
+    msssim_out = loss_func(img1, img2)
+    value = msssim_out.item()
     print('Current MS-SSIM = %.5f' % value)
     msssim_out.backward()
     optimizer.step()
